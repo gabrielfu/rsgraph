@@ -1,0 +1,18 @@
+[package]
+name = "rust-emd"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+name = "rust_emd"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.17.1", features = ["extension-module"] }
+ndarray = "0.15.0"
+rawpointer = "0.2.1"
+numpy = "0.17.2"
+
+[package.metadata.maturin]
+python-source = "python"
