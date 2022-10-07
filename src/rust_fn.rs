@@ -9,8 +9,8 @@ pub mod algorithms {
         let mut flow: f64 = 0.;
         let mut residual = Array2::zeros((nv, nv));
         
-        // BFS
         loop {
+            // BFS
             let mut q: VecDeque<i32> = VecDeque::new();
             q.push_back(s);
             let mut p = Array1::zeros::<usize>(nv);
