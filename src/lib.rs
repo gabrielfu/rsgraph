@@ -5,9 +5,9 @@ use pyo3::prelude::{pymodule, PyModule, PyResult, Python};
 #[pymodule]
 fn rugraphlib(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     #[pyfn(m)]
-    fn edmond_karp<'py>(_py: Python<'_>, x: PyReadonlyArray2<f64>, s: i32, t: i32) -> f64 {
+    fn edmonds_karp<'py>(_py: Python<'_>, x: PyReadonlyArray2<f64>, s: i32, t: i32) -> f64 {
         let array = x.as_array();
-        rust_fn::edmond_karp(&array, s, t)
+        rust_fn::edmonds_karp(&array, s, t)
     }
 
     Ok(())
@@ -18,7 +18,7 @@ pub mod rust_fn {
     use ndarray::{Array1, Array2, ArrayView2, Axis};
     use std::collections::VecDeque;
 
-    pub fn edmond_karp(capacity: &ArrayView2<'_, f64>, s: i32, t: i32) -> f64 {
+    pub fn edmonds_karp(capacity: &ArrayView2<'_, f64>, s: i32, t: i32) -> f64 {
         let nv: usize = capacity.len_of(Axis(0));
         let mut flow: f64 = 0.;
         let mut residual = Array2::zeros((nv, nv));
