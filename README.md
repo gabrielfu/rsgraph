@@ -2,7 +2,7 @@
 Rust implementation of common graph algorithms with Python binding
 
 ## Algorithms
-- Edmonds-Karp maximum flow
+- [Edmonds-Karp maximum flow](https://en.wikipedia.org/wiki/Edmonds%E2%80%93Karp_algorithm)
 
 ## Prerequisites
 - rust 2021
