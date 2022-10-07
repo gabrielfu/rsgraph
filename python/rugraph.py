@@ -14,7 +14,7 @@ def edmonds_karp(capacity: np.ndarray, s: int, t: int) -> float:
         float: maximum flow
     """
     if not isinstance(capacity, np.ndarray):
-        capacity = np.array(capacity)
+        capacity = np.array(capacity).astype(np.float64)
     
     if len(capacity.shape) != 2:
         raise ValueError(f"Expected dim 2 array, got {len(capacity.shape)}!")
