@@ -62,7 +62,6 @@ pub mod algorithms {
         let mut dist: HashMap<Node, f64> = HashMap::new();
         let mut parents: HashMap<Node, Node> = HashMap::new();
         for v in g.nodes.iter() {
-            println!("graph node: {}", v);
             dist.insert(*v, f64::MAX);
             parents.insert(*v, -1);
         }
