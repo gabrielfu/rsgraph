@@ -23,5 +23,4 @@ def benchmark(func: Callable, name: str=None):
     timings = [dt / number for dt in raw_timings]
     best = min(timings)
     print("%s: %d loop%s, best of %d: %s per loop"
-          % (name, number, 's' if number != 1 else '',
-             repeat, format_time(best)))
+          % (name, number, 's' if number != 1 else '', repeat, format_time(best)))
