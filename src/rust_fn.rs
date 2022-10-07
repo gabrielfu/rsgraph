@@ -1,16 +1,16 @@
-pub mod algorithms {
+use ndarray::{Array1, Array2, ArrayView2, Axis};
+use std::collections::VecDeque;
 
-    use ndarray::{Array1, Array2, ArrayView2, Axis};
-    use std::collections::VecDeque;
+pub mod algorithms {
+    use super::*;
 
     pub fn edmonds_karp(capacity: &ArrayView2<'_, f64>, s: i32, t: i32) -> f64 {
         let nv: usize = capacity.len_of(Axis(0));
         let mut flow: f64 = 0.;
         let mut residual = Array2::zeros((nv, nv));
         
-        // bgf
+        // BFS
         loop {
-            // let q = arr1(&[s]);
             let mut q: VecDeque<i32> = VecDeque::new();
             q.push_back(s);
             let mut p = Array1::zeros::<usize>(nv);
