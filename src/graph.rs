@@ -1,9 +1,13 @@
-// cargo-deps: ndarray
+//! A simplistic implementation of graph objects
+//! supporting weighted and directed edges
+
 use ndarray::{ArrayView2, Axis};
 use std::collections::{HashSet};
 
+/// Represents node ID
 pub type Node = i32;
 
+/// Represents a weighted directed edge from a source to a destination
 #[derive(Debug)]
 pub struct Edge {
     pub src: Node,
@@ -21,6 +25,7 @@ impl Edge {
     }
 }
 
+/// Represents a graph object
 #[derive(Debug)]
 pub struct Graph {
     pub v: usize, // num vertices
@@ -30,10 +35,12 @@ pub struct Graph {
 }
 
 impl Graph {
+    /// Construct an empty Graph object
     pub fn new() -> Graph {
         Graph { v: 0, e: 0, nodes: HashSet::new(), edges: vec![]}
     }
 
+    /// Construct a new Graph object from an `ndarray` adjacency matrix
     pub fn from_adj_matrix(adj: &ArrayView2<f64>) -> Graph {
         let mut g = Graph::new();
         let n = adj.len_of(Axis(0));
@@ -56,10 +63,12 @@ impl Graph {
         }
     }
 
+    /// Add an unweighted directed edge
     pub fn add_unweighted_edge(&mut self, src: Node, dest: Node) {
         self.add_weighted_edge(src, dest, 1.);
     }
 
+    /// Add a weighted directed edge
     pub fn add_weighted_edge(&mut self, src: Node, dest: Node, weight: f64) {
         self.add_node(src);
         self.add_node(dest);
