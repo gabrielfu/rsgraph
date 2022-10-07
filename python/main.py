@@ -19,8 +19,3 @@ print(f"rust output: {rugraph.edmonds_karp(path, s, t)}")
 
 benchmark(lambda: algorithms.edmonds_karp(path, s, t), name="python")
 benchmark(lambda: rugraph.edmonds_karp(path, s, t), name="rust")
-
-# import timeit
-
-# timeit.main(args="algorithms.edmonds_karp(path, s, t)")
-# timeit.main(args="rugraph.edmonds_karp(path, s, t)")
