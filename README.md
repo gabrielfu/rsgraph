@@ -61,7 +61,6 @@ python ./python/main.py
 ### Edmond-Karps
 ```
 Benchmarking: Edmonds-Karp
-Validating output: nx_flow=138.0, nx_ek=138.0, python=138.0, rust=138.0
 nx_flow: 100 loops, best of 5: 3.97 msec per loop
 nx_ek: 50 loops, best of 5: 3.24 msec per loop
 python: 5 loops, best of 5: 41.8 msec per loop

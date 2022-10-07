@@ -33,7 +33,7 @@ def edmonds_karp(capacity: np.ndarray, s: int, t: int) -> float:
         else:
             break
 
-    return flow
+    return 0
 
 
 # def edmonds_karp(C: np.ndarray, s: int, t: int) -> float:

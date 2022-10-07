@@ -27,19 +27,18 @@ def benchmark_edmonds_karp():
     capacity[t] = 0
     # source is sole entrance
     capacity[:, s] = 0
-
+    
     G = nx.from_numpy_array(capacity, create_using=nx.DiGraph())
-    print("Validating output: nx_flow={nx_flow}, nx_ek={nx_ek}, python={python}, rust={rust}".format(
-        nx_flow=nx.maximum_flow_value(G, s, t, capacity="weight"),
-        nx_ek=nx.algorithms.flow.edmonds_karp(G, s, t, capacity="weight").graph["flow_value"],
-        python=algorithms.edmonds_karp(capacity, s, t),
-        rust=rugraph.edmonds_karp(capacity, s, t),
-    ))
+    func_dict = {
+        "nx_flow": lambda: nx.maximum_flow_value(G, s, t, capacity="weight"),
+        "nx_ek": lambda: nx.algorithms.flow.edmonds_karp(G, s, t, capacity="weight").graph["flow_value"],
+        "python": lambda: algorithms.edmonds_karp(capacity, s, t),
+        "rust": lambda: rugraph.edmonds_karp(capacity, s, t),
+    }
 
-    benchmark(lambda: nx.maximum_flow_value(G, s, t, capacity="weight"), name="nx_flow")
-    benchmark(lambda: nx.algorithms.flow.edmonds_karp(G, s, t, capacity="weight"), name="nx_ek")
-    benchmark(lambda: algorithms.edmonds_karp(capacity, s, t), name="python")
-    benchmark(lambda: rugraph.edmonds_karp(capacity, s, t), name="rust")
+    # Benchmark
+    for name, func in func_dict.items():
+        benchmark(func, name=name)
     print()
 
 
