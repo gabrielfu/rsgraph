@@ -1,37 +1,36 @@
-import numpy as np
+from typing import List
 
-def first_nonzero(dirt_or_holes):
-    # index of first cell greater than 0.00
-    dim = len(dirt_or_holes)
-    for i in range(dim):
-        if dirt_or_holes[i] > 0.0:
-            return i
-    return -1  # no cells found
-
-def move_dirt(dirt, from_idx, holes, to_idx):
-    # move as much dirt at [from] as possible to holes[to]
-    if dirt[from_idx] <= holes[to_idx]:  # use all dirt
-        flow = dirt[from_idx]
-        dirt[from_idx] = 0.0  # all dirt got moved
-        holes[to_idx] -= flow  # less to fill now
-    elif dirt[from_idx] > holes[to_idx]:  # use just part of dirt
-        flow = holes[to_idx]  # fill remainder of hole
-        dirt[from_idx] -= flow
-        holes[to_idx] = 0.0  # hole is filled
-    dist = np.abs(from_idx - to_idx)
-    return flow, dist, dirt, holes
-
-def wasserstein(dirt, holes):
-    dirt_c = np.copy(dirt) 
-    holes_c = np.copy(holes)
-    tot_work = 0.0
+def edmond_karp(path: List[List[int]], s: int, t: int) -> float:
+    # Edmonds Karp maximum flow algorithm
+    V = len(path)
+    flow = 0
+    residual = [[0] * V for _ in range(V)]
 
     while True:
-        from_idx = first_nonzero(dirt_c)
-        to_idx = first_nonzero(holes_c)
-        if from_idx == -1 or to_idx == -1:
+        # BFS
+        q = [s]
+        p = [None] * V
+        df = float("inf")
+        while q:
+            u = q.pop(0)
+            for v in range(V):
+                if path[u][v] > 0 and path[u][v] > residual[u][v] and p[v] is None:
+                    p[v] = u
+                    df = min(df, path[u][v] - residual[u][v])
+                    if v != t:
+                        q.append(v)
+
+        if p[t] is not None:
+            flow += df
+            v = t
+            while v != s:
+                u = p[v]
+                residual[u][v] += df
+                residual[v][u] -= df
+                v = u
+        else:
             break
-        (flow, dist, dirt_c, holes_c) = move_dirt(dirt_c, from_idx, holes_c, to_idx)
-        tot_work += flow * dist
-        # print(dirt_c); print(holes_c); input()
-    return tot_work
+
+    return flow
+
+
