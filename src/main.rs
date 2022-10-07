@@ -1,6 +1,6 @@
 use ndarray::arr2;
-mod lib;
-use lib::rust_fn::edmonds_karp;
+mod rust_fn;
+use rust_fn::algorithms;
 
 fn main() {
     let path = arr2(&[
@@ -16,6 +16,6 @@ fn main() {
     let s = 0;
     let t = 7;
 
-    let out = edmonds_karp(&path.view(), s, t);
+    let out = algorithms::edmonds_karp(&path.view(), s, t);
     println!("{}", out);
 }
