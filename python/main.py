@@ -85,10 +85,13 @@ def benchmark_bellman_ford():
         try:
             return nx.single_source_bellman_ford(G, source)
         except NetworkXUnbounded:
-            return {}, {}
+            return None
 
     def rust():
-        return rsgraph.bellman_ford(adj, source)
+        try:
+            return rsgraph.bellman_ford(adj, source)
+        except rsgraph.NegativeCycleException:
+            return None
     
     func_dict = {
         "nx_bf": nx_bf,
@@ -102,5 +105,5 @@ def benchmark_bellman_ford():
 
 
 if __name__ == "__main__":
-    benchmark_edmonds_karp()
+    # benchmark_edmonds_karp()
     benchmark_bellman_ford()
