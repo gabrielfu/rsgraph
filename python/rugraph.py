@@ -5,12 +5,12 @@ import numpy as np
 
 def edmonds_karp(capacity: np.ndarray, s: int, t: int) -> float:
     """
-    asdsa
+    Computes the Edmonds Karp maximum flow algorithm
     
     Args:
-        capacity (np.ndarray): 2-d grid
-        s (int): source node
-        t (int): sink node
+        capacity (np.ndarray): 2d array
+        s (int): source vertex
+        t (int): sink vertex
         
     Returns:
         float: maximum flow
@@ -23,7 +23,7 @@ def edmonds_karp(capacity: np.ndarray, s: int, t: int) -> float:
     
     r, c = capacity.shape
     if r != c:
-        raise ValueError(f"Expected square 2d array, got {r}x{c}")
+        raise ValueError(f"Expected 2d square array, got dimension {r}x{c}")
     
     if s >= r or t >= r:
         raise ValueError(f"Source ({s}) or sink ({t}) exceeded path size ({r})")
