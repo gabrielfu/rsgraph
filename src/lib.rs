@@ -7,7 +7,7 @@ use rust_fn::algorithms;
 #[pymodule]
 fn rugraphlib(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     #[pyfn(m)]
-    fn edmonds_karp<'py>(_py: Python<'_>, x: PyReadonlyArray2<f64>, s: i32, t: i32) -> f64 {
+    fn edmonds_karp<'py>(_py: Python<'_>, x: PyReadonlyArray2<f64>, s: usize, t: usize) -> f64 {
         let array = x.as_array();
         algorithms::edmonds_karp(&array, s, t)
     }
