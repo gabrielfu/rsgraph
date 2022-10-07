@@ -3,6 +3,7 @@ Rust implementation of common graph algorithms with Python binding
 
 ## Algorithms
 - [Edmonds-Karp maximum flow](https://en.wikipedia.org/wiki/Edmonds%E2%80%93Karp_algorithm)
+- [Bellman-Ford shortest path](https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm)
 
 ## Prerequisites
 - rust 2021
@@ -39,7 +40,7 @@ import numpy as np
 
 capacity = np.array([
     [0, 1, 0],
-    [0, 0 ,1],
+    [0, 0, 1],
     [0, 0, 0],
 ]).astype(np.float64)
 s = 0
@@ -52,13 +53,35 @@ Output:
 1.0
 ```
 
+### Bellman-Ford
+```python
+import rsgraph
+import numpy as np
+
+capacity = np.array([
+    [13, 10,  8,  4],
+    [ 4,  0,  1,  0],
+    [ 2, 13, 10, 14],
+    [ 8,  9, 15, 11],
+]).astype(np.float64)
+source = 0
+distance, path = rsgraph.bellman_ford(adj, source)
+print(distance)
+print(path)
+```
+Output:
+```python
+{3: 4.0, 2: 8.0, 1: 10.0, 0: 0.0}
+{1: [0, 1], 3: [0, 3], 2: [0, 2], 0: [0]}
+```
+
 ## Benchmarking
 Run 
 ```python
 python ./python/main.py
 ```
 
-### Edmond-Karps
+### Edmonds-Karp
 Benchmarking against `networkx` (nx) and pure python implementation:
 ```
 Benchmarking: Edmonds-Karp
@@ -71,3 +94,12 @@ rust: 1000 loops, best of 5: 266 usec per loop
 
 Using `perfplot`:
 ![](./images/perf_edmonds_karp.png)
+
+### Bellman-Ford
+Benchmarking against `networkx` (nx)
+```
+Benchmarking: Bellman-Ford
+Graph size: 8
+nx_bf: 5000 loops, best of 5: 41.1 usec per loop
+rust: 10000 loops, best of 5: 20.8 usec per loop
+```
