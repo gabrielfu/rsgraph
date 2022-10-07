@@ -24,6 +24,6 @@ def edmonds_karp(capacity: np.ndarray, s: int, t: int) -> float:
         raise ValueError(f"Expected 2d square array, got dimension {r}x{c}")
     
     if s >= r or t >= r:
-        raise ValueError(f"Source ({s}) or sink ({t}) exceeded path size ({r})")
+        raise ValueError(f"Source ({s}) or sink ({t}) exceeded graph size ({r})")
     
     return lib.edmonds_karp(capacity, s, t)

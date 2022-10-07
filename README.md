@@ -51,3 +51,16 @@ Output:
 ```python
 1.0
 ```
+
+## Benchmarking
+Run 
+```python
+python ./python/main.py
+```
+
+### Edmond-Karps
+```
+Edmonds-Karp
+python: 5 loops, best of 5: 49.4 msec per loop
+rust: 1000 loops, best of 5: 216 usec per loop
+```

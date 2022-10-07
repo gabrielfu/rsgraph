@@ -1,6 +1,6 @@
 import timeit
 from typing import Callable
-   
+
 
 def benchmark(func: Callable, name: str=None):
     timer = timeit.default_timer
