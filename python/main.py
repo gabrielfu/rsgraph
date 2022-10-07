@@ -7,6 +7,7 @@ from benchmark import benchmark
 import algorithms
 import rsgraph
 import networkx as nx
+from networkx.exception import NetworkXUnbounded
 
 
 def benchmark_edmonds_karp():
@@ -61,7 +62,45 @@ def benchmark_edmonds_karp():
     for name, func in func_dict.items():
         benchmark(func, name=name)
     print()
+    
+
+def benchmark_bellman_ford():
+    print("Benchmarking: Bellman-Ford")
+    
+    def setup(n):
+        rng = np.random.default_rng(seed=0)
+        adj = rng.integers(low=0, high=16, size=(n, n)).astype(np.float64)
+        source = 0
+
+        # networkx graph
+        G = nx.from_numpy_array(adj, create_using=nx.DiGraph())
+
+        return adj, G, source
+    
+    n = 8
+    adj, G, source = setup(n)
+    print(f"Graph size: {n}")
+    
+    def nx_bf():
+        try:
+            return nx.single_source_bellman_ford(G, source)
+        except NetworkXUnbounded:
+            return {}, {}
+
+    def rust():
+        return rsgraph.bellman_ford(adj, source)
+    
+    func_dict = {
+        "nx_bf": nx_bf,
+        "rust": rust,
+    }
+
+    # Benchmark
+    for name, func in func_dict.items():
+        benchmark(func, name=name)
+    print()
 
 
 if __name__ == "__main__":
     benchmark_edmonds_karp()
+    benchmark_bellman_ford()
