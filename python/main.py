@@ -1,12 +1,11 @@
 import os
-from termios import NL0
 import numpy as np
 import matplotlib.pyplot as plt
 os.environ["RUST_BACKTRACE"] = "full"
 
 from benchmark import benchmark
 import algorithms
-import rugraph
+import rsgraph
 import networkx as nx
 
 
@@ -49,7 +48,7 @@ def benchmark_edmonds_karp():
         return algorithms.edmonds_karp(capacity, s, t)
     
     def rust():
-        return rugraph.edmonds_karp(capacity, s, t)
+        return rsgraph.edmonds_karp(capacity, s, t)
     
     func_dict = {
         "nx_flow": nx_flow,

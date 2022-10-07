@@ -5,7 +5,7 @@ mod rust_fn;
 use rust_fn::algorithms;
 
 #[pymodule]
-fn rugraphlib(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
+fn rsgraphlib(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     #[pyfn(m)]
     fn edmonds_karp<'py>(_py: Python<'_>, x: PyReadonlyArray2<f64>, s: usize, t: usize) -> f64 {
         let array = x.as_array();

@@ -1,4 +1,4 @@
-# rugraph
+# rsgraph
 Rust implementation of common graph algorithms with Python binding
 
 ## Algorithms
@@ -28,13 +28,13 @@ Rust implementation of common graph algorithms with Python binding
 
 4. Import in python
     ```python
-    import rugraph
+    import rsgraph
     ```
 
 ## Examples
 ### Edmonds-Karp
 ```python
-import rugraph
+import rsgraph
 import numpy as np
 
 capacity = np.array([
@@ -44,7 +44,7 @@ capacity = np.array([
 ]).astype(np.float64)
 s = 0
 t = 2
-flow = rugraph.edmonds_karp(capacity, s, t)
+flow = rsgraph.edmonds_karp(capacity, s, t)
 print(flow)
 ```
 Output:

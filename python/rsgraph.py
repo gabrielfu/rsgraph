@@ -1,4 +1,4 @@
-import rugraphlib as lib
+import rsgraphlib
 import numpy as np
 
 def edmonds_karp(capacity: np.ndarray, s: int, t: int) -> float:
@@ -26,4 +26,4 @@ def edmonds_karp(capacity: np.ndarray, s: int, t: int) -> float:
     if s >= r or t >= r:
         raise ValueError(f"Source ({s}) or sink ({t}) exceeded graph size ({r})")
     
-    return lib.edmonds_karp(capacity, s, t)
+    return rsgraphlib.edmonds_karp(capacity, s, t)
