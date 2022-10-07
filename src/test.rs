@@ -1,3 +1,5 @@
+use ndarray::arr2;
+
 use super::*;
 
 #[test]
@@ -26,23 +28,59 @@ fn test_bellman_ford() {
     use crate::graph::Graph;
 
     {
-        let mut g = Graph::new();
-        g.add_weighted_edge(0, 1, 2.);
-        g.add_weighted_edge(1, 2, 1.);
-        g.add_weighted_edge(2, 0, -2.);
+        let adj = arr2(&[
+            [13., 10.,  8.,  4.,  4.,  0.,  1.,  0.,  2., 13.],
+            [10., 14.,  8.,  9., 15., 11., 10.,  8.,  8., 14.],
+            [ 4., 13., 10.,  0.,  6., 13.,  8.,  0., 12., 11.],
+            [13.,  2.,  1., 13.,  0.,  8.,  1.,  4.,  7.,  6.],
+            [ 6.,  0.,  0.,  1.,  0., 10.,  8., 10.,  4.,  9.],
+            [12.,  6.,  7., 15., 12., 15.,  6., 10., 15., 10.],
+            [13., 11., 11.,  6., 14.,  2.,  9., 11., 13.,  8.],
+            [ 6.,  4.,  6.,  7., 11., 14.,  1., 14.,  8.,  5.],
+            [10.,  9.,  4.,  5., 11.,  9.,  8.,  5., 12.,  6.],
+            [ 5., 14.,  4.,  3., 11.,  9.,  0.,  1.,  6., 13.],
+        ]);
+        let g = Graph::from_adj_matrix(&adj.view());
 
-        let neg = algorithms::bellman_ford(&g, 1);
-        assert_eq!(neg, false);
+        let (distance, path) = algorithms::bellman_ford(&g, 1);
+        assert_eq!(distance, HashMap::from([
+            (0, 0.), 
+            (1, 6.), 
+            (2, 5.), 
+            (3, 4.), 
+            (4, 4.), 
+            (5, 3.), 
+            (6, 1.),
+            (7, 7.), 
+            (8, 2.), 
+            (9, 8.), 
+        ]));
+        assert_eq!(path, HashMap::from([
+            (0, vec![0]), 
+            (1, vec![0, 3, 1]), 
+            (2, vec![0, 3, 2]), 
+            (3, vec![0, 3]), 
+            (4, vec![0, 4]), 
+            (5, vec![0, 6, 5]), 
+            (6, vec![0, 6]), 
+            (7, vec![0, 8, 7]),
+            (8, vec![0, 8]), 
+            (9, vec![0, 8, 9]), 
+        ]));
     }
 
     {
-        let mut g = Graph::new();
-        g.add_weighted_edge(0, 1, 2.);
-        g.add_weighted_edge(1, 2, 1.);
-        g.add_weighted_edge(2, 0, -5.);
+        let adj = arr2(&[
+            [ 1.,  0.,  0., -1.],
+            [-1., -2., -2., -2.],
+            [-2.,  1.,  0.,  1.],
+            [ 0.,  0.,  1.,  0.],
+        ]);
+        let g = Graph::from_adj_matrix(&adj.view());
 
-        let neg = algorithms::bellman_ford(&g, 1);
-        assert_eq!(neg, true);
+        let (distance, path) = algorithms::bellman_ford(&g, 1);
+        assert_eq!(distance, HashMap::from([]));
+        assert_eq!(path, HashMap::from([]));
     }
 }
 
