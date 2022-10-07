@@ -1,4 +1,5 @@
-use numpy::{PyReadonlyArray2};
+use std::collections::HashMap;
+use numpy::PyReadonlyArray2;
 use pyo3::prelude::{pymodule, PyModule, PyResult, Python};
 
 mod rust_fn;
@@ -16,7 +17,7 @@ fn rsgraphlib(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     }
 
     #[pyfn(m)]
-    fn bellman_ford<'py>(_py: Python<'_>, x: PyReadonlyArray2<f64>, source: Node) -> bool {
+    fn bellman_ford<'py>(_py: Python<'_>, x: PyReadonlyArray2<f64>, source: Node) -> (HashMap<Node, f64>, HashMap<Node, Vec<Node>>) {
         let array = x.as_array();
         let g = Graph::from_adj_matrix(&array);
         algorithms::bellman_ford(&g, source)

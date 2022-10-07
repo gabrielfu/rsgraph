@@ -56,8 +56,7 @@ pub mod algorithms {
         flow
     }
 
-    
-    pub fn bellman_ford(g: &Graph, src: Node) -> bool {
+    pub fn _bellman_ford(g: &Graph, src: Node) -> (bool, HashMap<Node, f64>, HashMap<Node, Node>) {
         // init
         let mut dist: HashMap<Node, f64> = HashMap::new();
         let mut parents: HashMap<Node, Node> = HashMap::new();
@@ -88,10 +87,36 @@ pub mod algorithms {
             let du = *(dist.get(u).unwrap());
             let dv = *(dist.get(v).unwrap());
             if du != f64::MAX && du + *w < dv {
-                return true;
+                // detected negative cycle
+                return (true, dist, parents);
             }
         }
 
-        return false;
+        // did not detect any negative cycle
+        return (false, dist, parents);
+    }
+
+    pub fn bellman_ford(g: &Graph, src: Node) -> (HashMap<Node, f64>, HashMap<Node, Vec<Node>>) {
+        let mut distance: HashMap<Node, f64> = HashMap::new();
+        let mut path: HashMap<Node, Vec<Node>> = HashMap::new();
+
+        let (neg_cycle, dist, parents) = _bellman_ford(g, src);
+        if !neg_cycle {
+            distance = dist;
+            for node in g.nodes.iter() {
+                let mut node_path: VecDeque<Node> = VecDeque::new();
+                let mut p = node;
+                loop {
+                    node_path.push_front(*p);
+                    if *p == src {
+                        break
+                    }
+                    p = parents.get(p).unwrap();
+                }
+                path.insert(*node, Vec::from(node_path));
+            }
+        }
+
+        return (distance, path);
     }
 }
