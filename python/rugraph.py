@@ -1,5 +1,3 @@
-import os
-os.environ["RUST_BACKTRACE"] = "full"
 import rugraphlib as lib
 import numpy as np
 
