@@ -27,6 +27,7 @@ fn test_edmonds_karp() {
 fn test_bellman_ford() {
     use crate::graph::Graph;
 
+    // test for no negative cycle
     {
         let adj = arr2(&[
             [13., 10.,  8.,  4.,  4.,  0.],
@@ -58,6 +59,7 @@ fn test_bellman_ford() {
         ]));
     }
 
+    // test for negative cycle
     {
         let adj = arr2(&[
             [ 1.,  0.,  0., -1.],
