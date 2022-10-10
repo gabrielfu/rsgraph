@@ -76,10 +76,15 @@ Output:
 ```
 
 ## Benchmarking
-Run 
-```python
-python ./python/main.py
-```
+1. Install Python libraries
+    ```shell
+    $ pip install -r ./benchmark/requirements.txt
+    ```
+
+2. Run 
+    ```python
+    python ./benchmark/main.py
+    ```
 
 ### Edmonds-Karp
 Benchmarking against `networkx` (nx) and pure python implementation:
