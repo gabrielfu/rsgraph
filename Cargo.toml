@@ -1,9 +1,10 @@
 [package]
-name = "rsgraphlib"
+name = "rsgraph"
 version = "0.1.0"
 edition = "2021"
 
 [lib]
+name = "rsgraph"
 crate-type = ["cdylib"]
 
 [dependencies]
