@@ -1,0 +1,2 @@
+setuptools_rust>=1.5.2
+pip>=20.2

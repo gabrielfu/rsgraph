@@ -276,7 +276,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "rsgraphlib"
+name = "rsgraph"
 version = "0.1.0"
 dependencies = [
  "ndarray",

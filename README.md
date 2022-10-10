@@ -13,18 +13,18 @@ Rust implementation of common graph algorithms with Python binding
 ### Build from source
 1. Create virtual environment
     ```shell
-    python -m venv ./venv
-    ./venv/Scripts/activate
+    $ python -m venv ./venv
+    $ ./venv/Scripts/activate
     ```
 
-2. Install maturin
+2. Install Python libraries
     ```shell
-    pip install maturin
+    $ pip install -r requirements.txt
     ```
 
-3. Build rust package in python
+3. Build package
     ```shell
-    maturin develop --release
+    python setup.py develop
     ```
 
 4. Import in python
@@ -76,10 +76,15 @@ Output:
 ```
 
 ## Benchmarking
-Run 
-```python
-python ./python/main.py
-```
+1. Install Python libraries
+    ```shell
+    $ pip install -r ./benchmark/requirements.txt
+    ```
+
+2. Run 
+    ```python
+    python ./benchmark/main.py
+    ```
 
 ### Edmonds-Karp
 Benchmarking against `networkx` (nx) and pure python implementation:
