@@ -83,7 +83,7 @@ Output:
 
 2. Run 
     ```python
-    python ./benchmark/main.py
+    $ python ./benchmark/main.py
     ```
 
 ### Edmonds-Karp
