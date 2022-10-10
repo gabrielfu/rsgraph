@@ -24,7 +24,7 @@ Rust implementation of common graph algorithms with Python binding
 
 3. Build package
     ```shell
-    python setup.py develop
+    $ python setup.py develop
     ```
 
 4. Import in python
