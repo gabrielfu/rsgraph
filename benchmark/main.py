@@ -105,5 +105,5 @@ def benchmark_bellman_ford():
 
 
 if __name__ == "__main__":
-    # benchmark_edmonds_karp()
+    benchmark_edmonds_karp()
     benchmark_bellman_ford()
