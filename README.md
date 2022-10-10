@@ -6,8 +6,8 @@ Rust implementation of common graph algorithms with Python binding
 - [Bellman-Ford shortest path](https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm)
 
 ## Prerequisites
-- rust 2021
-- python >= 3.7
+- Rust >= 1.56
+- Python >= 3.7
 
 ## Usage
 ### Build from source
