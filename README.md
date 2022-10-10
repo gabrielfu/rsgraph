@@ -58,11 +58,11 @@ Output:
 import rsgraph
 import numpy as np
 
-capacity = np.array([
-    [13, 10,  8,  4],
-    [ 4,  0,  1,  0],
-    [ 2, 13, 10, 14],
-    [ 8,  9, 15, 11],
+adj = np.array([
+    [ 0, 10,  8,  4],
+    [ 4,  0,  0,  0],
+    [ 0, 13,  0, 14],
+    [ 8,  9, 15,  0],
 ]).astype(np.float64)
 source = 0
 distance, path = rsgraph.bellman_ford(adj, source)
@@ -71,8 +71,8 @@ print(path)
 ```
 Output:
 ```python
-{3: 4.0, 2: 8.0, 1: 10.0, 0: 0.0}
-{1: [0, 1], 3: [0, 3], 2: [0, 2], 0: [0]}
+{3: 4.0, 0: 0.0, 2: 8.0, 1: 10.0}
+{2: [0, 2], 3: [0, 3], 1: [0, 1], 0: [0]}
 ```
 
 ## Benchmarking
