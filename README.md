@@ -82,7 +82,7 @@ Output:
     ```
 
 2. Run 
-    ```python
+    ```shell
     $ python ./benchmark/main.py
     ```
 
