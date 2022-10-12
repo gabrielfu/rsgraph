@@ -1,5 +1,4 @@
 use ndarray::arr2;
-
 use super::*;
 
 #[test]
@@ -96,6 +95,23 @@ fn test_graph() {
         assert_eq!(cg.v, 8);
         assert_eq!(cg.e, 56);
     }
+}
+
+#[test]
+fn test_disjoint_set() {
+    use crate::structs::disjoint_set::DisjointSet;
+
+    let mut ds = DisjointSet::new();
+    for i in 0..10 {
+        ds.make_set(&i);
+    }
+
+    ds.union(&1, &3);
+    ds.union(&7, &1);
+    assert_eq!(ds.find(&7), 3);
+
+    ds.union(&7, &8);
+    assert_eq!(ds.find(&3), 8);
 }
 
 #[test]

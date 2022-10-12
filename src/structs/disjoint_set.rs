@@ -22,6 +22,14 @@ impl DisjointSet {
         self.parents.borrow_mut().insert(*item, *parent);
     }
 
+    pub fn make_set(&mut self, item: &Node) {
+        if self.nodes.contains(item) {
+            return
+        }
+        self.nodes.push(*item);
+        self.set_parent(item, item);
+    }
+
     pub fn find(&mut self, item: &Node) -> Node {
         let mut root = *item;
         
