@@ -8,7 +8,7 @@ use std::collections::{HashSet};
 pub type Node = i32;
 
 /// Represents a weighted directed edge from a source to a destination
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct Edge {
     pub src: Node,
     pub dest: Node,
@@ -26,7 +26,7 @@ impl Edge {
 }
 
 /// Represents a graph object
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct Graph {
     pub v: usize, // num vertices
     pub e: usize, // num edges
@@ -38,6 +38,15 @@ impl Graph {
     /// Construct an empty Graph object
     pub fn new() -> Graph {
         Graph { v: 0, e: 0, nodes: HashSet::new(), edges: vec![]}
+    }
+
+    pub fn clone(&mut self) -> Graph {
+        let mut g = Graph::new();
+        g.nodes = self.nodes.clone();
+        g.edges = self.edges.clone();
+        g.v = self.v;
+        g.e = self.e;
+        return g;
     }
 
     /// Construct a new Graph object from an `ndarray` adjacency matrix

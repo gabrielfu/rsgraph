@@ -97,3 +97,22 @@ fn test_graph() {
         assert_eq!(cg.e, 56);
     }
 }
+
+#[test]
+fn test_kruskal() {
+    let mut g= Graph::new();
+    g.add_weighted_edge(2, 3, 3.);
+    g.add_weighted_edge(1, 2, 2.);
+    g.add_weighted_edge(0, 1, 1.);
+
+    let edges: Vec<f64> = g.edges.iter().map(|e| e.weight).collect();
+    assert_eq!(edges, vec![3., 2., 1.]);
+
+    let _g = algorithms::kruskal::kruskal(&g);
+
+    let edges: Vec<f64> = g.edges.iter().map(|e| e.weight).collect();
+    assert_eq!(edges, vec![3., 2., 1.]);
+
+    let edges: Vec<f64> = _g.edges.iter().map(|e| e.weight).collect();
+    assert_eq!(edges, vec![1., 2., 3.]);
+}
