@@ -1,5 +1,4 @@
 import numpy as np
-from typing import List
 
 
 def edmonds_karp(capacity: np.ndarray, s: int, t: int) -> float:

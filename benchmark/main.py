@@ -5,6 +5,7 @@ os.environ["RUST_BACKTRACE"] = "full"
 
 from benchmark import benchmark
 import algorithms
+from algorithms.graph import Graph
 import rsgraph
 import networkx as nx
 from networkx.exception import NetworkXUnbounded
@@ -75,16 +76,27 @@ def benchmark_bellman_ford():
         # networkx graph
         G = nx.from_numpy_array(adj, create_using=nx.DiGraph())
 
-        return adj, G, source
+        # pure python graph
+        g = Graph.from_adj_matrix(adj)
+
+        return adj, G, g, source
     
-    n = 8
-    adj, G, source = setup(n)
+    n = 64
+    adj, _, _, source = setup(n)
     print(f"Graph size: {n}")
     
     def nx_bf():
         try:
+            G = nx.from_numpy_array(adj, create_using=nx.DiGraph())
             return nx.single_source_bellman_ford(G, source)
         except NetworkXUnbounded:
+            return None
+
+    def python():
+        try:
+            g = Graph.from_adj_matrix(adj)
+            return algorithms.bellman_ford(g, source)
+        except algorithms.NegativeCycleException:
             return None
 
     def rust():
@@ -95,6 +107,7 @@ def benchmark_bellman_ford():
     
     func_dict = {
         "nx_bf": nx_bf,
+        "python": python,
         "rust": rust,
     }
 
@@ -105,5 +118,5 @@ def benchmark_bellman_ford():
 
 
 if __name__ == "__main__":
-    benchmark_edmonds_karp()
+    # benchmark_edmonds_karp()
     benchmark_bellman_ford()
