@@ -42,6 +42,7 @@ $ pip install git+https://github.com/gabrielfu/rust-graph-algorithms.git
     ```shell
     $ python setup.py install
     ```
+    Note: if you run `python setup.py develop`, a much slower debug version will be built.
 
 
 ## Examples
