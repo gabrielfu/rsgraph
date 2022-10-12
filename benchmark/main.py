@@ -31,19 +31,18 @@ def benchmark_edmonds_karp():
         # source is sole entrance
         capacity[:, s] = 0
 
-        # networkx graph
-        G = nx.from_numpy_array(capacity, create_using=nx.DiGraph())
-
-        return capacity, G, s, t
+        return capacity, s, t
     
     n = 32
-    capacity, G, s, t = setup(n)
+    capacity, s, t = setup(n)
     print(f"Graph size: {n}")
     
     def nx_flow():
+        G = nx.from_numpy_array(capacity, create_using=nx.DiGraph())
         return nx.maximum_flow_value(G, s, t, capacity="weight")
     
     def nx_ek():
+        G = nx.from_numpy_array(capacity, create_using=nx.DiGraph())
         return nx.algorithms.flow.edmonds_karp(G, s, t, capacity="weight").graph["flow_value"]
     
     def python():
@@ -72,17 +71,10 @@ def benchmark_bellman_ford():
         rng = np.random.default_rng(seed=0)
         adj = rng.integers(low=0, high=16, size=(n, n)).astype(np.float64)
         source = 0
+        return adj, source
 
-        # networkx graph
-        G = nx.from_numpy_array(adj, create_using=nx.DiGraph())
-
-        # pure python graph
-        g = Graph.from_adj_matrix(adj)
-
-        return adj, G, g, source
-    
-    n = 64
-    adj, _, _, source = setup(n)
+    n = 32
+    adj, source = setup(n)
     print(f"Graph size: {n}")
     
     def nx_bf():
@@ -118,5 +110,5 @@ def benchmark_bellman_ford():
 
 
 if __name__ == "__main__":
-    # benchmark_edmonds_karp()
+    benchmark_edmonds_karp()
     benchmark_bellman_ford()
