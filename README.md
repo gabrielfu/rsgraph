@@ -9,28 +9,37 @@ Rust implementation of common graph algorithms with Python binding
 - Rust >= 1.56
 - Python >= 3.7
 
-## Usage
+## Installation
+You can install the package `rsgraph` using pip or by building from source.
+
+### Using pip
+```shell
+$ pip install git+https://github.com/gabrielfu/rust-graph-algorithms.git
+```
+
 ### Build from source
-1. Create virtual environment
+1. Clone this repository
     ```shell
-    $ python -m venv ./venv
-    $ ./venv/Scripts/activate
+    $ git clone https://github.com/gabrielfu/rust-graph-algorithms.git
+    $ cd rust-graph-algorithms
     ```
 
-2. Install Python libraries
+2. Create virtual environment
+    ```shell
+    $ python -m venv ./venv
+    $ source ./venv/bin/activate
+    ```
+
+3. Install Python libraries
     ```shell
     $ pip install -r requirements.txt
     ```
 
-3. Build package
+4. Build package
     ```shell
     $ python setup.py develop
     ```
 
-4. Import in python
-    ```python
-    import rsgraph
-    ```
 
 ## Examples
 ### Edmonds-Karp
