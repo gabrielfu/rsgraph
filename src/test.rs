@@ -19,7 +19,7 @@ fn test_edmonds_karp() {
     let s = 0;
     let t = 7;
 
-    let out = algorithms::edmonds_karp(&capacity.view(), s, t);
+    let out = algorithms::edmonds_karp::edmonds_karp(&capacity.view(), s, t);
     assert_eq!(out, 27.);
 }
 
@@ -40,7 +40,7 @@ fn test_bellman_ford() {
         let g = Graph::from_adj_matrix(&adj.view());
         let source = 0;
 
-        let (distance, path) = algorithms::bellman_ford(&g, source);
+        let (distance, path) = algorithms::bellman_ford::bellman_ford(&g, source);
         assert_eq!(distance, HashMap::from([
             (0, 0.0), 
             (1, 10.0), 
@@ -70,7 +70,7 @@ fn test_bellman_ford() {
         let g = Graph::from_adj_matrix(&adj.view());
         let source = 0;
 
-        let (distance, path) = algorithms::bellman_ford(&g, source);
+        let (distance, path) = algorithms::bellman_ford::bellman_ford(&g, source);
         assert_eq!(distance, HashMap::from([]));
         assert_eq!(path, HashMap::from([]));
     }
