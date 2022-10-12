@@ -7,6 +7,8 @@ use graph::{Graph, Node};
 
 mod algorithms;
 
+mod structs;
+
 #[pymodule]
 fn rsgraphlib(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     #[pyfn(m)]
