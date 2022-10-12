@@ -5,6 +5,7 @@ os.environ["RUST_BACKTRACE"] = "full"
 
 from benchmark import benchmark
 import algorithms
+from algorithms.graph import Graph
 import rsgraph
 import networkx as nx
 from networkx.exception import NetworkXUnbounded
@@ -30,19 +31,18 @@ def benchmark_edmonds_karp():
         # source is sole entrance
         capacity[:, s] = 0
 
-        # networkx graph
-        G = nx.from_numpy_array(capacity, create_using=nx.DiGraph())
-
-        return capacity, G, s, t
+        return capacity, s, t
     
     n = 32
-    capacity, G, s, t = setup(n)
+    capacity, s, t = setup(n)
     print(f"Graph size: {n}")
     
     def nx_flow():
+        G = nx.from_numpy_array(capacity, create_using=nx.DiGraph())
         return nx.maximum_flow_value(G, s, t, capacity="weight")
     
     def nx_ek():
+        G = nx.from_numpy_array(capacity, create_using=nx.DiGraph())
         return nx.algorithms.flow.edmonds_karp(G, s, t, capacity="weight").graph["flow_value"]
     
     def python():
@@ -71,20 +71,24 @@ def benchmark_bellman_ford():
         rng = np.random.default_rng(seed=0)
         adj = rng.integers(low=0, high=16, size=(n, n)).astype(np.float64)
         source = 0
+        return adj, source
 
-        # networkx graph
-        G = nx.from_numpy_array(adj, create_using=nx.DiGraph())
-
-        return adj, G, source
-    
-    n = 8
-    adj, G, source = setup(n)
+    n = 32
+    adj, source = setup(n)
     print(f"Graph size: {n}")
     
     def nx_bf():
         try:
+            G = nx.from_numpy_array(adj, create_using=nx.DiGraph())
             return nx.single_source_bellman_ford(G, source)
         except NetworkXUnbounded:
+            return None
+
+    def python():
+        try:
+            g = Graph.from_adj_matrix(adj)
+            return algorithms.bellman_ford(g, source)
+        except algorithms.NegativeCycleException:
             return None
 
     def rust():
@@ -95,6 +99,7 @@ def benchmark_bellman_ford():
     
     func_dict = {
         "nx_bf": nx_bf,
+        "python": python,
         "rust": rust,
     }
 

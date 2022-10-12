@@ -100,20 +100,21 @@ Benchmarking against `networkx` (nx) and pure python implementation:
 ```
 Benchmarking: Edmonds-Karp
 Graph size: 32
-nx_flow: 100 loops, best of 5: 3.97 msec per loop
-nx_ek: 50 loops, best of 5: 3.24 msec per loop
-python: 5 loops, best of 5: 41.8 msec per loop
-rust: 1000 loops, best of 5: 266 usec per loop
+nx_flow: 50 loops, best of 5: 4.33 msec per loop
+nx_ek: 100 loops, best of 5: 3.33 msec per loop
+python: 5 loops, best of 5: 59.3 msec per loop
+rust: 500 loops, best of 5: 406 usec per loop
 ```
 
 Using `perfplot`:
 ![](./images/perf_edmonds_karp.png)
 
 ### Bellman-Ford
-Benchmarking against `networkx` (nx)
+Benchmarking against `networkx` (nx) and pure python implementation:
 ```
 Benchmarking: Bellman-Ford
-Graph size: 8
-nx_bf: 5000 loops, best of 5: 41.1 usec per loop
-rust: 10000 loops, best of 5: 20.8 usec per loop
+Graph size: 32
+nx_bf: 200 loops, best of 5: 1.76 msec per loop
+python: 20 loops, best of 5: 15.7 msec per loop
+rust: 500 loops, best of 5: 786 usec per loop
 ```
