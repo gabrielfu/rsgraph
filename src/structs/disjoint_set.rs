@@ -1,7 +1,6 @@
 use std::collections::HashMap;
 use std::cell::RefCell;
-
-type Node = usize;
+use crate::structs::graph::Node;
 
 pub struct DisjointSet {
     pub nodes: Vec<Node>,
