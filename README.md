@@ -1,5 +1,8 @@
 # rsgraph
-Rust implementation of common graph algorithms with Python binding
+Python wrapper API of Rust implementation of common graph algorithms
+
+This package is orders of magnitude faster than pure Python implementation, 
+and is up to 10x faster than `networkx` for small graph (size < 100).
 
 ## Algorithms
 - [Edmonds-Karp maximum flow](https://en.wikipedia.org/wiki/Edmonds%E2%80%93Karp_algorithm)
@@ -96,7 +99,7 @@ Output:
     ```
 
 ### Edmonds-Karp
-Benchmarking against `networkx` (nx) and pure python implementation:
+Benchmarking against `networkx` (nx) and pure Python implementation:
 ```
 Benchmarking: Edmonds-Karp
 Graph size: 32
@@ -110,7 +113,7 @@ Using `perfplot`:
 ![](./images/perf_edmonds_karp.png)
 
 ### Bellman-Ford
-Benchmarking against `networkx` (nx) and pure python implementation:
+Benchmarking against `networkx` (nx) and Pure python implementation:
 ```
 Benchmarking: Bellman-Ford
 Graph size: 32
@@ -118,3 +121,6 @@ nx_bf: 200 loops, best of 5: 1.76 msec per loop
 python: 20 loops, best of 5: 15.7 msec per loop
 rust: 500 loops, best of 5: 786 usec per loop
 ```
+
+Using `perfplot`:
+![](./images/perf_bellman_ford.png)
