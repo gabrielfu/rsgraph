@@ -2,9 +2,6 @@ use std::collections::HashMap;
 use numpy::PyReadonlyArray2;
 use pyo3::prelude::{pymodule, PyModule, PyResult, Python};
 
-// mod rust_fn;
-// use rust_fn::algorithms;
-
 mod graph;
 use graph::{Graph, Node};
 
