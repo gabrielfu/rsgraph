@@ -3,7 +3,7 @@
 #![allow(unused_variables)]
 
 use std::collections::{VecDeque, HashMap};
-use crate::graph::{Graph, Node, Edge};
+use crate::structs::graph::{Graph, Node, Edge};
 
 
 pub fn kruskal(_g: &Graph) -> Graph {

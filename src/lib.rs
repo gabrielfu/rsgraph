@@ -2,12 +2,9 @@ use std::collections::HashMap;
 use numpy::PyReadonlyArray2;
 use pyo3::prelude::{pymodule, PyModule, PyResult, Python};
 
-mod graph;
-use graph::{Graph, Node};
-
 mod algorithms;
-
 mod structs;
+use structs::graph::{Graph, Node};
 
 #[pymodule]
 fn rsgraphlib(_py: Python<'_>, m: &PyModule) -> PyResult<()> {

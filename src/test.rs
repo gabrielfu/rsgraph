@@ -25,7 +25,7 @@ fn test_edmonds_karp() {
 
 #[test]
 fn test_bellman_ford() {
-    use crate::graph::Graph;
+    use super::*;
 
     // test for no negative cycle
     {
@@ -79,7 +79,7 @@ fn test_bellman_ford() {
 #[test]
 fn test_graph() {
     use ndarray::arr2;
-    use crate::graph::Graph;
+    use super::*;
 
     {
         let capacity = arr2(&[

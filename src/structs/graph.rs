@@ -2,7 +2,7 @@
 //! supporting weighted and directed edges
 
 use ndarray::{ArrayView2, Axis};
-use std::collections::{HashSet};
+use std::collections::HashSet;
 
 /// Represents node ID
 pub type Node = i32;
