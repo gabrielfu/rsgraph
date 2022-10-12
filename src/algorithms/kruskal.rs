@@ -4,13 +4,32 @@
 
 use std::collections::{VecDeque, HashMap};
 use crate::structs::graph::{Graph, Node, Edge};
+use crate::structs::disjoint_set::DisjointSet;
 
 
-pub fn kruskal(_g: &Graph) -> Graph {
+pub fn kruskal(g: &Graph) -> Vec<Edge>{
+    // disjoint set
+    let mut subtree = DisjointSet::new();
+    for v in g.nodes.iter() {
+        subtree.make_set(v);
+    }
 
-    // avoid mutating the borrowed Graph
-    let mut g = (*_g).clone();
-    g.edges.sort_by(|a, b| a.weight.partial_cmp(&b.weight).unwrap());
+    // mst
+    let mut mst: Vec<Edge> = vec![];
 
-    return g;
+    // sort the edges by ascending weight
+    let mut edges = g.edges.clone();
+    edges.sort_by(|a, b| a.weight.partial_cmp(&b.weight).unwrap());
+
+    for edge in edges.iter() {
+        let Edge { src: u, dest: v, weight: _ } = edge;
+        let ru = subtree.find(u);
+        let rv = subtree.find(v);
+        if ru != rv  {
+            mst.push(*edge);
+            subtree.union(&ru, &rv);
+        }
+    }
+
+    mst
 }
