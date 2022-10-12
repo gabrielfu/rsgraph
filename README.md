@@ -37,7 +37,7 @@ $ pip install git+https://github.com/gabrielfu/rust-graph-algorithms.git
 
 4. Build package
     ```shell
-    $ python setup.py develop
+    $ python setup.py install
     ```
 
 
