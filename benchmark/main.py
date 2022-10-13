@@ -7,10 +7,9 @@ from networkx.exception import NetworkXUnbounded
 import rsgraph
 import algorithms
 from algorithms.graph import Graph
-from decorators import Bench
+from bench import Bench, register_kernel
 
 
-@Bench.bench
 class EdmondsKarpBench(Bench):
     name = "Edmonds-Karp Algorithm"
 
@@ -35,23 +34,22 @@ class EdmondsKarpBench(Bench):
         return capacity, s, t
 
     @staticmethod
-    @Bench.register(label="networkx")
+    @register_kernel(label="networkx")
     def nx_func(capacity, s, t):
         G = nx.from_numpy_array(capacity, create_using=nx.DiGraph())
         return nx.algorithms.flow.edmonds_karp(G, s, t, capacity="weight").graph["flow_value"]
 
     @staticmethod
-    @Bench.register(label="python")
+    @register_kernel(label="python")
     def py_func(capacity, s, t):
         return algorithms.edmonds_karp(capacity, s, t)
 
     @staticmethod
-    @Bench.register(label="rsgraph")
+    @register_kernel(label="rsgraph")
     def rsgraph_func(capacity, s, t):
         return rsgraph.edmonds_karp(capacity, s, t)
 
 
-@Bench.bench
 class BellmanFordBench(Bench):
     name = "Bellman-Ford Algorithm"
 
@@ -63,7 +61,7 @@ class BellmanFordBench(Bench):
         return adj, source
 
     @staticmethod
-    @Bench.register(label="networkx")
+    @register_kernel(label="networkx")
     def nx_func(adj, source):
         try:
             G = nx.from_numpy_array(adj, create_using=nx.DiGraph())
@@ -72,7 +70,7 @@ class BellmanFordBench(Bench):
             return None
 
     @staticmethod
-    @Bench.register(label="python")
+    @register_kernel(label="python")
     def py_func(adj, source):
         try:
             g = Graph.from_adj_matrix(adj)
@@ -81,7 +79,7 @@ class BellmanFordBench(Bench):
             return None
 
     @staticmethod
-    @Bench.register(label="rsgraph")
+    @register_kernel(label="rsgraph")
     def rsgraph_func(adj, source):
         try:
             return rsgraph.bellman_ford(adj, source)
@@ -89,7 +87,6 @@ class BellmanFordBench(Bench):
             return None
 
 
-@Bench.bench
 class KruskalBench(Bench):
     name = "Kruskal's Algorithm"
 
@@ -104,7 +101,7 @@ class KruskalBench(Bench):
         return adj
 
     @staticmethod
-    @Bench.register(label="networkx")
+    @register_kernel(label="networkx")
     def nx_func(adj):
         G = nx.from_numpy_array(adj, create_using=nx.Graph())
         mst = nx.minimum_spanning_tree(G)
@@ -112,7 +109,7 @@ class KruskalBench(Bench):
         return mst
 
     @staticmethod
-    @Bench.register(label="rsgraph")
+    @register_kernel(label="rsgraph")
     def rsgraph_func(adj):
         mst = rsgraph.kruskal(adj)
         return mst
