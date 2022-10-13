@@ -35,10 +35,11 @@ class Bench:
             max_n_pow2 (int): benchmarking until n = 2 ** max_n_pow2
         """
         print(f"Benchmarking: {cls.name}")
+        labels, kernels = list(zip(*cls._registry.items()))
         perf_data = perfplot.bench(
             setup=cls.setup,
-            kernels=list(cls._registry.values()),
-            labels=list(cls._registry.keys()),
+            kernels=kernels,
+            labels=labels,
             n_range=[2 ** k for k in range(min_n_pow2, max_n_pow2)],
             xlabel="graph size",
             equality_check=None,
