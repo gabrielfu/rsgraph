@@ -33,6 +33,7 @@ def format_perf_data(perf_data: PerfplotData):
     console.print(table)
     return f.getvalue()
 
+
 def format_snake_case(string: str):
     # return string.lower().replace("-", "_").
     string = re.sub(r'(?<=[a-z])(?=[A-Z])|[^a-zA-Z]', ' ', string.replace("'", "")).strip().replace(' ', '_')
