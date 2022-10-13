@@ -1,5 +1,5 @@
 import perfplot
-from typing import Dict, Callable, Type
+from typing import Dict, Callable, Type, Optional
 from formats import format_perf_data, format_snake_case
 
 
@@ -19,7 +19,7 @@ class Bench:
         return cls
 
     @staticmethod
-    def register(label: str=None):
+    def register(label: Optional[str]=None):
         def decorator(func: Callable):
             setattr(func, "_bench_label", label or func.__name__)
             return func
