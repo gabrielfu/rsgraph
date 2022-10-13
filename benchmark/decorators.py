@@ -1,5 +1,5 @@
 import perfplot
-from typing import Dict, Callable
+from typing import Dict, Callable, Type
 from formats import format_perf_data, format_snake_case
 
 
@@ -8,7 +8,7 @@ class Bench:
     _registry: Dict
 
     @staticmethod
-    def bench(cls):
+    def bench(cls: Type["Bench"]):
         # add functions to registry
         cls._registry = {}
         for funcname in dir(cls):
@@ -26,7 +26,7 @@ class Bench:
         return decorator
 
     @classmethod
-    def run_benchmark(cls, min_n_pow2: int = 2, max_n_pow2: int = 10):
+    def run_benchmark(cls, min_n_pow2: int=2, max_n_pow2: int=10):
         """
         Run benchmark, print result and save image
 
@@ -54,5 +54,5 @@ class Bench:
         )
 
     @staticmethod
-    def setup(n):
+    def setup(n: int):
         raise NotImplementedError
