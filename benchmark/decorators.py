@@ -1,6 +1,3 @@
-import os
-os.environ["RUST_BACKTRACE"] = "full"
-
 import perfplot
 from typing import Dict, Callable
 from formats import format_perf_data, format_snake_case
