@@ -36,12 +36,12 @@ pub struct Graph {
 
 impl Graph {
     /// Construct an empty Graph object
-    pub fn new() -> Graph {
-        Graph { v: 0, e: 0, nodes: HashSet::new(), edges: vec![]}
+    pub fn new() -> Self {
+        Self { v: 0, e: 0, nodes: HashSet::new(), edges: vec![]}
     }
 
-    pub fn clone(&mut self) -> Graph {
-        let mut g = Graph::new();
+    pub fn clone(&mut self) -> Self {
+        let mut g = Self::new();
         g.nodes = self.nodes.clone();
         g.edges = self.edges.clone();
         g.v = self.v;
@@ -50,8 +50,8 @@ impl Graph {
     }
 
     /// Construct a new Graph object from an `ndarray` adjacency matrix
-    pub fn from_adj_matrix(adj: &ArrayView2<f64>) -> Graph {
-        let mut g = Graph::new();
+    pub fn from_adj_matrix(adj: &ArrayView2<f64>) -> Self {
+        let mut g = Self::new();
         let n = adj.len_of(Axis(0));
 
         for i in 0..n {
