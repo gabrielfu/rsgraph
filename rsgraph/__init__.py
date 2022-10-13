@@ -6,6 +6,7 @@ __all__ = [
     "NegativeCycleException",
     "edmonds_karp",
     "bellman_ford",
+    "kruskal",
 ]
 
 class NegativeCycleException(Exception):
