@@ -7,17 +7,17 @@ class BenchMeta(type):
     def __new__(mcs, name, bases, namespace):
         cls = super().__new__(mcs, name, bases, namespace)
         # add registered kernels to class kernel registry
-        cls._kernel_registry = {}
+        cls.__kernel_registry__ = {}
         for func_name in dir(cls):
             func = getattr(cls, func_name)
-            if hasattr(func, "_kernel_label"):
-                cls._kernel_registry[getattr(func, "_kernel_label")] = func
+            if hasattr(func, "__kernel_label__"):
+                cls.__kernel_registry__[getattr(func, "__kernel_label__")] = func
         return cls
 
 
 class Bench(metaclass=BenchMeta):
     name: str
-    _kernel_registry: Dict
+    __kernel_registry__: Dict
 
     @classmethod
     def run_benchmark(cls, min_n_pow2: int=2, max_n_pow2: int=10):
@@ -29,10 +29,10 @@ class Bench(metaclass=BenchMeta):
             max_n_pow2 (int): benchmarking until n = 2 ** max_n_pow2
         """
         print(f"Benchmarking: {cls.name}")
-        if len(cls._kernel_registry) == 0:
+        if len(cls.__kernel_registry__) == 0:
             raise ValueError("No kernel registered")
 
-        labels, kernels = list(zip(*cls._kernel_registry.items()))
+        labels, kernels = list(zip(*cls.__kernel_registry__.items()))
         perf_data = perfplot.bench(
             setup=cls.setup,
             kernels=kernels,
@@ -58,6 +58,6 @@ class Bench(metaclass=BenchMeta):
 
 def register_kernel(label: Optional[str]=None):
     def decorator(func: Callable):
-        setattr(func, "_kernel_label", label or func.__name__)
+        setattr(func, "__kernel_label__", label or func.__name__)
         return func
     return decorator
