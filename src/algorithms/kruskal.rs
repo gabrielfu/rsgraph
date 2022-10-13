@@ -27,6 +27,7 @@ pub fn kruskal(g: &Graph) -> Graph {
         let rv = subtree.find(&v);
         if ru != rv  {
             mst.add_weighted_edge(u, v, w);
+            mst.add_weighted_edge(v, u, w);
             subtree.union(&ru, &rv);
         }
     }
