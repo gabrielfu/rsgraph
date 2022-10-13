@@ -7,14 +7,14 @@ from networkx.exception import NetworkXUnbounded
 import rsgraph
 import algorithms
 from algorithms.graph import Graph
-from formats import format_perf_data, format_snake_case
-import perfplot
+from decorators import Bench
 
 
-def benchmark_edmonds_karp():
+@Bench.bench
+class EdmondsKarpBench(Bench):
     name = "Edmonds-Karp Algorithm"
-    print(f"Benchmarking: {name}")
-    
+
+    @staticmethod
     def setup(n):
         # source
         s = 0
@@ -33,46 +33,37 @@ def benchmark_edmonds_karp():
         capacity[:, s] = 0
 
         return capacity, s, t
-    
+
+    @staticmethod
+    @Bench.register(label="networkx")
     def nx_func(capacity, s, t):
         G = nx.from_numpy_array(capacity, create_using=nx.DiGraph())
         return nx.algorithms.flow.edmonds_karp(G, s, t, capacity="weight").graph["flow_value"]
-    
+
+    @staticmethod
+    @Bench.register(label="python")
     def py_func(capacity, s, t):
         return algorithms.edmonds_karp(capacity, s, t)
-    
+
+    @staticmethod
+    @Bench.register(label="rsgraph")
     def rsgraph_func(capacity, s, t):
         return rsgraph.edmonds_karp(capacity, s, t)
-    
-    perf_data = perfplot.bench(
-        setup=setup,
-        kernels=[nx_func, py_func, rsgraph_func],
-        labels=["networkx", "python", "rsgraph"],
-        n_range=[2 ** k for k in range(2, 10)],
-        xlabel="graph size",
-        equality_check=None,
-    )
-    print(format_perf_data(perf_data))
-    perf_data.title = name
-    perf_data.save(
-        filename=f"./images/perf_{format_snake_case(name)}.png",
-        logx=True,
-        logy=True,
-        transparent=False,
-        bbox_inches="tight",
-    )
-    
 
-def benchmark_bellman_ford():
+
+@Bench.bench
+class BellmanFordBench(Bench):
     name = "Bellman-Ford Algorithm"
-    print(f"Benchmarking: {name}")
-    
+
+    @staticmethod
     def setup(n):
         rng = np.random.default_rng(seed=0)
         adj = rng.integers(low=0, high=16, size=(n, n)).astype(np.float64)
         source = 0
         return adj, source
-    
+
+    @staticmethod
+    @Bench.register(label="networkx")
     def nx_func(adj, source):
         try:
             G = nx.from_numpy_array(adj, create_using=nx.DiGraph())
@@ -80,6 +71,8 @@ def benchmark_bellman_ford():
         except NetworkXUnbounded:
             return None
 
+    @staticmethod
+    @Bench.register(label="python")
     def py_func(adj, source):
         try:
             g = Graph.from_adj_matrix(adj)
@@ -87,35 +80,20 @@ def benchmark_bellman_ford():
         except algorithms.NegativeCycleException:
             return None
 
+    @staticmethod
+    @Bench.register(label="rsgraph")
     def rsgraph_func(adj, source):
         try:
             return rsgraph.bellman_ford(adj, source)
         except rsgraph.NegativeCycleException:
             return None
-    
-    perf_data = perfplot.bench(
-        setup=setup,
-        kernels=[nx_func, py_func, rsgraph_func],
-        labels=["networkx", "python", "rsgraph"],
-        n_range=[2 ** k for k in range(2, 10)],
-        xlabel="graph size",
-        equality_check=None,
-    )
-    print(format_perf_data(perf_data))
-    perf_data.title = name
-    perf_data.save(
-        filename=f"./images/perf_{format_snake_case(name)}.png",
-        logx=True,
-        logy=True,
-        transparent=False,
-        bbox_inches="tight",
-    )
-    
 
-def benchmark_kruskal():
+
+@Bench.bench
+class KruskalBench(Bench):
     name = "Kruskal's Algorithm"
-    print(f"Benchmarking: {name}")
 
+    @staticmethod
     def setup(n):
         rng = np.random.default_rng(seed=0)
         adj = rng.integers(low=0, high=16, size=(n, n)).astype(np.float64)
@@ -125,36 +103,22 @@ def benchmark_kruskal():
         adj[np.diag_indices(n)] = 0
         return adj
 
+    @staticmethod
+    @Bench.register(label="networkx")
     def nx_func(adj):
         G = nx.from_numpy_array(adj, create_using=nx.Graph())
         mst = nx.minimum_spanning_tree(G)
         mst = nx.to_numpy_array(mst)
         return mst
 
+    @staticmethod
+    @Bench.register(label="rsgraph")
     def rsgraph_func(adj):
         mst = rsgraph.kruskal(adj)
         return mst
-    
-    perf_data = perfplot.bench(
-        setup=setup,
-        kernels=[nx_func, rsgraph_func],
-        labels=["networkx", "rsgraph"],
-        n_range=[2 ** k for k in range(2, 10)],
-        xlabel="graph size",
-        equality_check=None,
-    )
-    print(format_perf_data(perf_data))
-    perf_data.title = name
-    perf_data.save(
-        filename=f"./images/perf_{format_snake_case(name)}.png",
-        logx=True,
-        logy=True,
-        transparent=False,
-        bbox_inches="tight",
-    )
 
 
 if __name__ == "__main__":
-    benchmark_edmonds_karp()
-    benchmark_bellman_ford()
-    benchmark_kruskal()
+    EdmondsKarpBench.run_benchmark()
+    BellmanFordBench.run_benchmark()
+    KruskalBench.run_benchmark()
