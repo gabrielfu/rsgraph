@@ -7,6 +7,7 @@ and is up to 10x faster than `networkx` for small graph (size < 100).
 ## Algorithms
 - [Edmonds-Karp maximum flow](https://en.wikipedia.org/wiki/Edmonds%E2%80%93Karp_algorithm)
 - [Bellman-Ford shortest path](https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm)
+- [Kruskal minimum spanning tree](https://en.wikipedia.org/wiki/Kruskal%27s_algorithm)
 
 ## Prerequisites
 - Rust >= 1.56
@@ -88,6 +89,32 @@ Output:
 {2: [0, 2], 3: [0, 3], 1: [0, 1], 0: [0]}
 ```
 
+### Kruskal
+```python
+import rsgraph
+import numpy as np
+
+adj = np.array([
+    [ 0.,  4.,  2.,  0.,  0.,  0.],
+    [ 4.,  0.,  1.,  8.,  0.,  0.],
+    [ 2.,  1.,  0.,  0.,  4.,  0.],
+    [ 0.,  8.,  0.,  0.,  2.,  1.],
+    [ 0.,  0.,  4.,  2.,  0.,  7.],
+    [ 0.,  0.,  0.,  1.,  7.,  0.],
+])
+mst = rsgraph.kruskal(adj)
+print(mst)
+```
+Output:
+```python
+[[0. 0. 2. 0. 0. 0.]
+ [0. 0. 1. 0. 0. 0.]
+ [2. 1. 0. 0. 4. 0.]
+ [0. 0. 0. 0. 2. 1.]
+ [0. 0. 4. 2. 0. 0.]
+ [0. 0. 0. 1. 0. 0.]]
+```
+
 ## Benchmarking
 1. Install Python libraries
     ```shell
@@ -125,3 +152,12 @@ rust: 500 loops, best of 5: 786 usec per loop
 
 Using `perfplot`:
 ![](./images/perf_bellman_ford.png)
+
+### Kruskal
+Benchmarking against `networkx` (nx):
+```
+Benchmarking: Kruskal
+Graph size: 32
+nx: 100 loops, best of 5: 2.35 msec per loop
+rust: 2000 loops, best of 5: 154 usec per loop
+```
