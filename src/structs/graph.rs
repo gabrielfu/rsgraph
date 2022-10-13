@@ -1,14 +1,14 @@
 //! A simplistic implementation of graph objects
 //! supporting weighted and directed edges
 
-use ndarray::{ArrayView2, Axis};
-use std::collections::{HashSet};
+use ndarray::{Array2, ArrayView2, Axis};
+use std::collections::HashSet;
 
 /// Represents node ID
 pub type Node = i32;
 
 /// Represents a weighted directed edge from a source to a destination
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct Edge {
     pub src: Node,
     pub dest: Node,
@@ -16,17 +16,27 @@ pub struct Edge {
 }
 
 impl Edge {
-    pub fn unweighted_edge(src: Node, dest: Node) -> Edge {
-        Edge { src, dest, weight: 1. }
+    pub fn unweighted_edge(src: Node, dest: Node) -> Self {
+        Self { src, dest, weight: 1. }
     }
 
-    pub fn weighted_edge(src: Node, dest: Node, weight: f64) -> Edge {
-        Edge { src, dest, weight }
+    pub fn weighted_edge(src: Node, dest: Node, weight: f64) -> Self {
+        Self { src, dest, weight }
     }
 }
 
+impl PartialEq for Edge {
+    fn eq(&self, other: &Self) -> bool {
+        (self.src == other.src)
+        && (self.dest == other.dest)
+        && (self.weight == other.weight)
+    }
+}
+
+impl Eq for Edge {}
+
 /// Represents a graph object
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct Graph {
     pub v: usize, // num vertices
     pub e: usize, // num edges
@@ -36,13 +46,22 @@ pub struct Graph {
 
 impl Graph {
     /// Construct an empty Graph object
-    pub fn new() -> Graph {
-        Graph { v: 0, e: 0, nodes: HashSet::new(), edges: vec![]}
+    pub fn new() -> Self {
+        Self { v: 0, e: 0, nodes: HashSet::new(), edges: vec![]}
+    }
+
+    pub fn clone(&mut self) -> Self {
+        let mut g = Self::new();
+        g.nodes = self.nodes.clone();
+        g.edges = self.edges.clone();
+        g.v = self.v;
+        g.e = self.e;
+        return g;
     }
 
     /// Construct a new Graph object from an `ndarray` adjacency matrix
-    pub fn from_adj_matrix(adj: &ArrayView2<f64>) -> Graph {
-        let mut g = Graph::new();
+    pub fn from_adj_matrix(adj: &ArrayView2<f64>) -> Self {
+        let mut g = Self::new();
         let n = adj.len_of(Axis(0));
 
         for i in 0..n {
@@ -54,6 +73,17 @@ impl Graph {
             }
         }
         g
+    }
+
+    pub fn to_adj_matrix(&self) -> Array2<f64> {
+        let n = self.v;
+        let mut adj = Array2::<f64>::zeros((n, n));
+        
+        for edge in self.edges.clone().into_iter() {
+            let Edge { src: u, dest: v, weight: w } = edge;
+            adj[[u as usize, v as usize]] = w;
+        }
+        adj
     }
 
     fn add_node(&mut self, node: Node) {

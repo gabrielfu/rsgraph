@@ -1,5 +1,5 @@
 use std::collections::{VecDeque, HashMap};
-use crate::graph::{Graph, Node, Edge};
+use crate::structs::graph::{Graph, Node, Edge};
 
 pub fn _bellman_ford(g: &Graph, src: Node) -> (bool, HashMap<Node, f64>, HashMap<Node, Node>) {
     // init

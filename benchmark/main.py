@@ -107,8 +107,45 @@ def benchmark_bellman_ford():
     for name, func in func_dict.items():
         benchmark(func, name=name)
     print()
+    
+
+def benchmark_kruskal():
+    print("Benchmarking: Kruskal")
+    
+    def setup(n):
+        rng = np.random.default_rng(seed=0)
+        adj = rng.integers(low=0, high=16, size=(n, n)).astype(np.float64)
+        # no loop
+        adj[np.diag_indices(n)] = 0
+        # undirected graph
+        adj[np.tril_indices(n, -1)] = adj[np.triu_indices(n, 1)]
+        return adj
+
+    n = 32
+    adj = setup(n)
+    print(f"Graph size: {n}")
+    
+    def nx_kruskal():
+        G = nx.from_numpy_array(adj, create_using=nx.Graph())
+        mst = nx.minimum_spanning_tree(G)
+        mst = nx.to_numpy_array(mst)
+        return mst
+
+    def rust():
+        return rsgraph.kruskal(adj)
+    
+    func_dict = {
+        "nx": nx_kruskal,
+        "rust": rust,
+    }
+
+    # Benchmark
+    for name, func in func_dict.items():
+        benchmark(func, name=name)
+    print()
 
 
 if __name__ == "__main__":
     benchmark_edmonds_karp()
     benchmark_bellman_ford()
+    benchmark_kruskal()

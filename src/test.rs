@@ -1,5 +1,4 @@
 use ndarray::arr2;
-
 use super::*;
 
 #[test]
@@ -25,7 +24,7 @@ fn test_edmonds_karp() {
 
 #[test]
 fn test_bellman_ford() {
-    use crate::graph::Graph;
+    use super::*;
 
     // test for no negative cycle
     {
@@ -79,7 +78,7 @@ fn test_bellman_ford() {
 #[test]
 fn test_graph() {
     use ndarray::arr2;
-    use crate::graph::Graph;
+    use super::*;
 
     {
         let capacity = arr2(&[
@@ -96,4 +95,47 @@ fn test_graph() {
         assert_eq!(cg.v, 8);
         assert_eq!(cg.e, 56);
     }
+}
+
+#[test]
+fn test_disjoint_set() {
+    use crate::structs::disjoint_set::DisjointSet;
+
+    let mut ds = DisjointSet::new();
+    for i in 0..10 {
+        ds.make_set(&i);
+    }
+
+    ds.union(&1, &3);
+    ds.union(&7, &1);
+    assert_eq!(ds.find(&7), 3);
+
+    ds.union(&7, &8);
+    assert_eq!(ds.find(&3), 8);
+}
+
+#[test]
+fn test_kruskal() {
+    let adj = arr2(&[
+        [ 0.,  4.,  2.,  0.,  0.,  0.],
+        [ 4.,  0.,  1.,  8.,  0.,  0.],
+        [ 2.,  1.,  0.,  0.,  4.,  0.],
+        [ 0.,  8.,  0.,  0.,  2.,  1.],
+        [ 0.,  0.,  4.,  2.,  0.,  7.],
+        [ 0.,  0.,  0.,  1.,  7.,  0.],
+    ]);
+    let g = Graph::from_adj_matrix(&(adj.view()));
+
+    let mst = algorithms::kruskal::kruskal(&g);
+    let mst_adj = mst.to_adj_matrix();
+
+    let expected_adj = arr2(&[
+        [ 0.,  0.,  2.,  0.,  0.,  0.],
+        [ 0.,  0.,  1.,  0.,  0.,  0.],
+        [ 0.,  0.,  0.,  0.,  4.,  0.],
+        [ 0.,  0.,  0.,  0.,  2.,  1.],
+        [ 0.,  0.,  0.,  0.,  0.,  0.],
+        [ 0.,  0.,  0.,  0.,  0.,  0.],
+    ]);
+    assert_eq!(mst_adj, expected_adj);
 }
