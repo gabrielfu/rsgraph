@@ -1,15 +1,18 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::cell::RefCell;
 use crate::structs::graph::Node;
 
 pub struct DisjointSet {
-    pub nodes: Vec<Node>,
+    pub nodes: HashSet<Node>,
     pub parents: RefCell<HashMap<Node, Node>>,
 }
 
 impl DisjointSet {
-    pub fn new() -> DisjointSet {
-        DisjointSet { nodes: vec![], parents: RefCell::new(HashMap::new()) }
+    pub fn new() -> Self {
+        Self { 
+            nodes: HashSet::new(),
+            parents: RefCell::new(HashMap::new()),
+        }
     }
 
     fn get_parent(&self, item: &Node) -> Node {
@@ -26,7 +29,7 @@ impl DisjointSet {
         if self.nodes.contains(item) {
             return
         }
-        self.nodes.push(*item);
+        self.nodes.insert(*item);
         self.set_parent(item, item);
     }
 

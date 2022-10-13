@@ -21,12 +21,12 @@ pub fn kruskal(g: &Graph) -> Vec<Edge>{
     let mut edges = g.edges.clone();
     edges.sort_by(|a, b| a.weight.partial_cmp(&b.weight).unwrap());
 
-    for edge in edges.iter() {
+    for edge in edges.into_iter() {
         let Edge { src: u, dest: v, weight: _ } = edge;
-        let ru = subtree.find(u);
-        let rv = subtree.find(v);
+        let ru = subtree.find(&u);
+        let rv = subtree.find(&v);
         if ru != rv  {
-            mst.push(*edge);
+            mst.push(edge);
             subtree.union(&ru, &rv);
         }
     }
