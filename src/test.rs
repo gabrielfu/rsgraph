@@ -116,19 +116,27 @@ fn test_disjoint_set() {
 
 #[test]
 fn test_kruskal() {
-    let mut g= Graph::new();
-    g.add_weighted_edge(2, 3, 3.);
-    g.add_weighted_edge(1, 2, 2.);
-    g.add_weighted_edge(0, 1, 1.);
+    use crate::structs::graph::Edge;
 
-    let edges: Vec<f64> = g.edges.iter().map(|e| e.weight).collect();
-    assert_eq!(edges, vec![3., 2., 1.]);
+    let adj = arr2(&[
+        [ 0.,  4.,  2.,  0.,  0.,  0.],
+        [ 4.,  0.,  1.,  8.,  0.,  0.],
+        [ 2.,  1.,  0.,  0.,  4.,  0.],
+        [ 0.,  8.,  0.,  0.,  2.,  1.],
+        [ 0.,  0.,  4.,  2.,  0.,  7.],
+        [ 0.,  0.,  0.,  1.,  7.,  0.],
+    ]);
+    let g = Graph::from_adj_matrix(&(adj.view()));
 
-    let _g = algorithms::kruskal::kruskal(&g);
+    let mut mst = algorithms::kruskal::kruskal(&g);
+    mst.sort_by_key(|e| (e.src, e.dest));
+    let arr: Vec<Edge> = vec![
+        Edge::weighted_edge(0, 2, 2.),
+        Edge::weighted_edge(1, 2, 1.),
+        Edge::weighted_edge(2, 4, 4.),
+        Edge::weighted_edge(3, 4, 2.),
+        Edge::weighted_edge(3, 5, 1.),
+    ];
+    assert_eq!(mst, arr);
 
-    let edges: Vec<f64> = g.edges.iter().map(|e| e.weight).collect();
-    assert_eq!(edges, vec![3., 2., 1.]);
-
-    let edges: Vec<f64> = _g.edges.iter().map(|e| e.weight).collect();
-    assert_eq!(edges, vec![1., 2., 3.]);
 }

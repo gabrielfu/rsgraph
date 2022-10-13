@@ -16,14 +16,24 @@ pub struct Edge {
 }
 
 impl Edge {
-    pub fn unweighted_edge(src: Node, dest: Node) -> Edge {
-        Edge { src, dest, weight: 1. }
+    pub fn unweighted_edge(src: Node, dest: Node) -> Self {
+        Self { src, dest, weight: 1. }
     }
 
-    pub fn weighted_edge(src: Node, dest: Node, weight: f64) -> Edge {
-        Edge { src, dest, weight }
+    pub fn weighted_edge(src: Node, dest: Node, weight: f64) -> Self {
+        Self { src, dest, weight }
     }
 }
+
+impl PartialEq for Edge {
+    fn eq(&self, other: &Self) -> bool {
+        (self.src == other.src)
+        && (self.dest == other.dest)
+        && (self.weight == other.weight)
+    }
+}
+
+impl Eq for Edge {}
 
 /// Represents a graph object
 #[derive(Clone, Debug)]
