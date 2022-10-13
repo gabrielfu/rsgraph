@@ -42,7 +42,7 @@ def edmonds_karp(capacity: np.ndarray, s: int, t: int) -> float:
 
 def bellman_ford(adj: np.ndarray, source: int) -> Tuple[Dict[int, float], Dict[int, List[int]]]:
     """
-    Computes the Edmonds Karp maximum flow algorithm
+    Computes the Bellman Ford shortest path algorithm
     
     Args:
         adj (np.ndarray): 2d adjacency matrix
