@@ -71,3 +71,26 @@ def bellman_ford(adj: np.ndarray, source: int) -> Tuple[Dict[int, float], Dict[i
         raise NegativeCycleException("Negative cycle detected.")
     
     return distance, path
+
+
+def kruskal(adj: np.ndarray) -> np.ndarray:
+    """
+    Computes the Kruskal minimum spanning tree algorithm
+    
+    Args:
+        adj (np.ndarray): 2d adjacency matrix
+        
+    Returns:
+        np.ndarray: adjacency matrix of minimum spanning tree
+    """
+    if not isinstance(adj, np.ndarray):
+        adj = np.array(adj).astype(np.float64)
+    
+    if len(adj.shape) != 2:
+        raise ValueError(f"Expected dim 2 array, got {len(adj.shape)}!")
+    
+    r, c = adj.shape
+    if r != c:
+        raise ValueError(f"Expected 2d square array, got dimension {r}x{c}")
+    
+    return rsgraphlib.kruskal(adj)
