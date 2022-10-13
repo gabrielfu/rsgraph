@@ -1,15 +1,14 @@
 import os
-import numpy as np
-import matplotlib.pyplot as plt
 os.environ["RUST_BACKTRACE"] = "full"
 
-import perfplot
-from formats import format_perf_data, format_snake_case
-import algorithms
-from algorithms.graph import Graph
-import rsgraph
+import numpy as np
 import networkx as nx
 from networkx.exception import NetworkXUnbounded
+import rsgraph
+import algorithms
+from algorithms.graph import Graph
+from formats import format_perf_data, format_snake_case
+import perfplot
 
 
 def benchmark_edmonds_karp():
