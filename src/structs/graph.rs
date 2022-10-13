@@ -1,7 +1,7 @@
 //! A simplistic implementation of graph objects
 //! supporting weighted and directed edges
 
-use ndarray::{ArrayView2, Axis};
+use ndarray::{Array2, ArrayView2, Axis};
 use std::collections::HashSet;
 
 /// Represents node ID
@@ -73,6 +73,17 @@ impl Graph {
             }
         }
         g
+    }
+
+    pub fn to_adj_matrix(&self) -> Array2<f64> {
+        let n = self.v;
+        let mut adj = Array2::<f64>::zeros((n, n));
+        
+        for edge in self.edges.clone().into_iter() {
+            let Edge { src: u, dest: v, weight: w } = edge;
+            adj[[u as usize, v as usize]] = w;
+        }
+        adj
     }
 
     fn add_node(&mut self, node: Node) {

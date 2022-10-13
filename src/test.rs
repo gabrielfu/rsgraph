@@ -116,8 +116,6 @@ fn test_disjoint_set() {
 
 #[test]
 fn test_kruskal() {
-    use crate::structs::graph::Edge;
-
     let adj = arr2(&[
         [ 0.,  4.,  2.,  0.,  0.,  0.],
         [ 4.,  0.,  1.,  8.,  0.,  0.],
@@ -128,15 +126,16 @@ fn test_kruskal() {
     ]);
     let g = Graph::from_adj_matrix(&(adj.view()));
 
-    let mut mst = algorithms::kruskal::kruskal(&g);
-    mst.sort_by_key(|e| (e.src, e.dest));
-    let arr: Vec<Edge> = vec![
-        Edge::weighted_edge(0, 2, 2.),
-        Edge::weighted_edge(1, 2, 1.),
-        Edge::weighted_edge(2, 4, 4.),
-        Edge::weighted_edge(3, 4, 2.),
-        Edge::weighted_edge(3, 5, 1.),
-    ];
-    assert_eq!(mst, arr);
+    let mst = algorithms::kruskal::kruskal(&g);
+    let mst_adj = mst.to_adj_matrix();
 
+    let expected_adj = arr2(&[
+        [ 0.,  0.,  2.,  0.,  0.,  0.],
+        [ 0.,  0.,  1.,  0.,  0.,  0.],
+        [ 0.,  0.,  0.,  0.,  4.,  0.],
+        [ 0.,  0.,  0.,  0.,  2.,  1.],
+        [ 0.,  0.,  0.,  0.,  0.,  0.],
+        [ 0.,  0.,  0.,  0.,  0.,  0.],
+    ]);
+    assert_eq!(mst_adj, expected_adj);
 }
