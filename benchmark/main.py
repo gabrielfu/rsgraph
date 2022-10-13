@@ -48,14 +48,20 @@ def benchmark_edmonds_karp():
     perf_data = perfplot.bench(
         setup=setup,
         kernels=[nx_func, py_func, rsgraph_func],
-        labels=["nx", "python", "rsgraph"],
-        n_range=[2, 3, 4],
-        xlabel="n",
+        labels=["networkx", "python", "rsgraph"],
+        n_range=[2 ** k for k in range(2, 10)],
+        xlabel="graph size",
         equality_check=None,
     )
     print(format_perf_data(perf_data))
     perf_data.title = name
-    perf_data.save(filename=f"./images/perf_{format_snake_case(name)}.png", logy=True)
+    perf_data.save(
+        filename=f"./images/perf_{format_snake_case(name)}.png",
+        logx=True,
+        logy=True,
+        transparent=False,
+        bbox_inches="tight",
+    )
     
 
 def benchmark_bellman_ford():
@@ -91,14 +97,20 @@ def benchmark_bellman_ford():
     perf_data = perfplot.bench(
         setup=setup,
         kernels=[nx_func, py_func, rsgraph_func],
-        labels=["nx", "python", "rsgraph"],
-        n_range=[2, 3, 4],
-        xlabel="n",
+        labels=["networkx", "python", "rsgraph"],
+        n_range=[2 ** k for k in range(2, 10)],
+        xlabel="graph size",
         equality_check=None,
     )
     print(format_perf_data(perf_data))
     perf_data.title = name
-    perf_data.save(filename=f"./images/perf_{format_snake_case(name)}.png", logy=True)
+    perf_data.save(
+        filename=f"./images/perf_{format_snake_case(name)}.png",
+        logx=True,
+        logy=True,
+        transparent=False,
+        bbox_inches="tight",
+    )
     
 
 def benchmark_kruskal():
@@ -127,13 +139,20 @@ def benchmark_kruskal():
     perf_data = perfplot.bench(
         setup=setup,
         kernels=[nx_func, rsgraph_func],
-        labels=["nx", "rsgraph"],
-        n_range=[2, 3, 4],
-        xlabel="n",
+        labels=["networkx", "rsgraph"],
+        n_range=[2 ** k for k in range(2, 10)],
+        xlabel="graph size",
+        equality_check=None,
     )
     print(format_perf_data(perf_data))
     perf_data.title = name
-    perf_data.save(filename=f"./images/perf_{format_snake_case(name)}.png", logy=True)
+    perf_data.save(
+        filename=f"./images/perf_{format_snake_case(name)}.png",
+        logx=True,
+        logy=True,
+        transparent=False,
+        bbox_inches="tight",
+    )
 
 
 if __name__ == "__main__":

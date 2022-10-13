@@ -116,6 +116,8 @@ Output:
 ```
 
 ## Benchmarking
+Run benchmarking script against `networkx` and pure Python implementation.
+
 1. Install Python libraries
     ```shell
     $ pip install -r ./benchmark/requirements.txt
@@ -127,37 +129,61 @@ Output:
     ```
 
 ### Edmonds-Karp
-Benchmarking against `networkx` (nx) and pure Python implementation:
 ```
-Benchmarking: Edmonds-Karp
-Graph size: 32
-nx_flow: 50 loops, best of 5: 4.33 msec per loop
-nx_ek: 100 loops, best of 5: 3.33 msec per loop
-python: 5 loops, best of 5: 59.3 msec per loop
-rust: 500 loops, best of 5: 406 usec per loop
+Benchmarking: Edmonds-Karp Algorithm
+Overall ---------------------------------------- 100% 0:00:00
+Kernels ----------------------------------------   0% -:--:--
+┌─────┬───────────┬───────────┬───────────┐
+│ n   │ networkx  │ python    │ rsgraph   │
+├─────┼───────────┼───────────┼───────────┤
+│ 4   │ 90.1 usec │ 32 usec   │ 1.5 usec  │
+│ 8   │ 223 usec  │ 500 usec  │ 6.2 usec  │
+│ 16  │ 785 usec  │ 4.18 msec │ 32.3 usec │
+│ 32  │ 3.13 msec │ 97.7 msec │ 399 usec  │
+│ 64  │ 14 msec   │ 737 msec  │ 3.28 msec │
+│ 128 │ 79.2 msec │ 7.34 sec  │ 40.1 msec │
+│ 256 │ 727 msec  │ 42 sec    │ 235 msec  │
+│ 512 │ 2.16 sec  │ 385 sec   │ 2.64 sec  │
+└─────┴───────────┴───────────┴───────────┘
 ```
-
-Using `perfplot`:
-![](./images/perf_edmonds_karp.png)
+![](./images/perf_edmonds_karp_algorithm.png)
 
 ### Bellman-Ford
-Benchmarking against `networkx` (nx) and Pure python implementation:
 ```
-Benchmarking: Bellman-Ford
-Graph size: 32
-nx_bf: 200 loops, best of 5: 1.76 msec per loop
-python: 20 loops, best of 5: 15.7 msec per loop
-rust: 500 loops, best of 5: 786 usec per loop
+Benchmarking: Bellman-Ford Algorithm
+Overall ---------------------------------------- 100% 0:00:00
+Kernels ----------------------------------------   0% -:--:--
+┌─────┬───────────┬───────────┬───────────┐
+│ n   │ networkx  │ python    │ rsgraph   │
+├─────┼───────────┼───────────┼───────────┤
+│ 4   │ 71.9 usec │ 43.6 usec │ 4.8 usec  │
+│ 8   │ 137 usec  │ 256 usec  │ 16.8 usec │
+│ 16  │ 493 usec  │ 2.6 msec  │ 90 usec   │
+│ 32  │ 2.53 msec │ 14.9 msec │ 660 usec  │
+│ 64  │ 9.22 msec │ 122 msec  │ 5.17 msec │
+│ 128 │ 32 msec   │ 1.28 sec  │ 44.3 msec │
+│ 256 │ 163 msec  │ 11.9 sec  │ 481 msec  │
+│ 512 │ 830 msec  │ 93.1 sec  │ 3.51 sec  │
+└─────┴───────────┴───────────┴───────────┘
 ```
-
-Using `perfplot`:
-![](./images/perf_bellman_ford.png)
+![](./images/perf_bellman_ford_algorithm.png)
 
 ### Kruskal
-Benchmarking against `networkx` (nx):
 ```
-Benchmarking: Kruskal
-Graph size: 32
-nx: 100 loops, best of 5: 2.35 msec per loop
-rust: 2000 loops, best of 5: 154 usec per loop
+Benchmarking: Kruskal's Algorithm
+Overall ---------------------------------------- 100% 0:00:00
+Kernels ----------------------------------------   0% -:--:--
+┌─────┬───────────┬───────────┐
+│ n   │ networkx  │ rsgraph   │
+├─────┼───────────┼───────────┤
+│ 4   │ 145 usec  │ 5.3 usec  │
+│ 8   │ 231 usec  │ 10.1 usec │
+│ 16  │ 698 usec  │ 42.3 usec │
+│ 32  │ 2.36 msec │ 144 usec  │
+│ 64  │ 9.6 msec  │ 611 usec  │
+│ 128 │ 44.6 msec │ 2.46 msec │
+│ 256 │ 229 msec  │ 10.4 msec │
+│ 512 │ 1.28 sec  │ 62.4 msec │
+└─────┴───────────┴───────────┘
 ```
+![](./images/perf_kruskals_algorithm.png)
