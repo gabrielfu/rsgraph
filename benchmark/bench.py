@@ -1,5 +1,6 @@
 import perfplot
-from typing import Dict, Callable, Optional
+import numpy as np
+from typing import Any, Dict, Callable, Optional, Union
 from formats import format_perf_data, format_snake_case
 
 
@@ -39,7 +40,7 @@ class Bench(metaclass=BenchMeta):
             labels=labels,
             n_range=[2 ** k for k in range(min_n_pow2, max_n_pow2)],
             xlabel="graph size",
-            equality_check=None,
+            equality_check=cls.get_equality_check(),
         )
         print(format_perf_data(perf_data))
         perf_data.title = cls.name
@@ -54,6 +55,10 @@ class Bench(metaclass=BenchMeta):
     @staticmethod
     def setup(n: int):
         raise NotImplementedError
+
+    @staticmethod
+    def get_equality_check() -> Union[Callable[[Any, Any], bool], None]:
+        return np.allclose
 
 
 def register_kernel(label: Optional[str]=None):

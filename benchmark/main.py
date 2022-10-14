@@ -65,26 +65,38 @@ class BellmanFordBench(Bench):
     def nx_func(adj, source):
         try:
             G = nx.from_numpy_array(adj, create_using=nx.DiGraph())
-            return nx.single_source_bellman_ford(G, source)
+            # the second return value is the shortest path.
+            # for a large graph, there can be multiple shortest path
+            # with the same total distance, so equality check
+            # might give false alarm.
+            # so checking the first return value should be sufficient
+            dist, _ = nx.single_source_bellman_ford(G, source)
+            return dist
         except NetworkXUnbounded:
-            return None
+            return {}
 
     @staticmethod
     @register_kernel(label="python")
     def py_func(adj, source):
         try:
             g = Graph.from_adj_matrix(adj)
-            return algorithms.bellman_ford(g, source)
+            dist, _ = algorithms.bellman_ford(g, source)
+            return dist
         except algorithms.NegativeCycleException:
-            return None
+            return {}
 
     @staticmethod
     @register_kernel(label="rsgraph")
     def rsgraph_func(adj, source):
         try:
-            return rsgraph.bellman_ford(adj, source)
+            dist, _ = rsgraph.bellman_ford(adj, source)
+            return dist
         except rsgraph.NegativeCycleException:
-            return None
+            return {}
+
+    @staticmethod
+    def get_equality_check():
+        return lambda a, b: a == b
 
 
 class KruskalBench(Bench):
