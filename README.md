@@ -18,14 +18,14 @@ You can install the package `rsgraph` using pip or by building from source.
 
 ### Using pip
 ```shell
-$ pip install git+https://github.com/gabrielfu/rust-graph-algorithms.git
+$ pip install git+https://github.com/gabrielfu/rsgraph.git
 ```
 
 ### Build from source
 1. Clone this repository
     ```shell
-    $ git clone https://github.com/gabrielfu/rust-graph-algorithms.git
-    $ cd rust-graph-algorithms
+    $ git clone https://github.com/gabrielfu/rsgraph.git
+    $ cd rsgraph
     ```
 
 2. Create virtual environment
