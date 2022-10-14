@@ -20,10 +20,11 @@ class Graph:
             self.v += 1
 
     def add_edge(self, src: int, dest: int, weight: float):
-        self._add_node(src)
-        self._add_node(dest)
-        self.edges.append(Edge(src, dest, weight))
-        self.e += 1
+        if weight != 0:
+            self._add_node(src)
+            self._add_node(dest)
+            self.edges.append(Edge(src, dest, weight))
+            self.e += 1
 
     @classmethod
     def from_adj_matrix(cls, adj: np.ndarray) -> "Graph":
