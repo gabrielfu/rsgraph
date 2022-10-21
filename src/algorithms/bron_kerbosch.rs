@@ -1,5 +1,5 @@
 use core::panic;
-use std::collections::{VecDeque, HashMap, HashSet};
+use std::{collections::{VecDeque, HashMap, HashSet}, ops::Sub};
 use crate::structs::graph::{Graph, Node, Edge};
 
 pub fn bron_kerbosch(adj_list: &HashMap<Node, HashSet<Node>>, nodes: HashSet<Node>) {
@@ -15,4 +15,21 @@ pub fn bron_kerbosch(adj_list: &HashMap<Node, HashSet<Node>>, nodes: HashSet<Nod
     for other in others {
         cand.retain(|e| other.contains(e));
     }
+
+    if cand.len() == 0 {
+        return;
+    }
+
+    let cand = cand.clone();
+    let subg = cand.clone();
+    let stack: Vec<Node> = vec![];
+
+    // Select u
+    let u = subg.iter().max_by_key(|v| cand.intersection(adj_list.get(v).unwrap()).collect::<HashSet<&Node>>().len()).unwrap();
+    let ext_u = cand.sub(adj_list.get(u).unwrap());
+
+    loop {
+        
+    }
+
 }
