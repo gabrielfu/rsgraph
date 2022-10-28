@@ -26,10 +26,26 @@ pub fn bron_kerbosch(adj_list: &HashMap<Node, HashSet<Node>>, nodes: HashSet<Nod
 
     // Select u
     let u = subg.iter().max_by_key(|v| cand.intersection(adj_list.get(v).unwrap()).collect::<HashSet<&Node>>().len()).unwrap();
-    let ext_u = cand.sub(adj_list.get(u).unwrap());
+    let mut ext_u = cand.sub(adj_list.get(u).unwrap());
+    let mut _Q: Vec<Node> = vec![-1];
 
     loop {
-        
+        if ext_u.len() > 0 {
+            // pop an item
+            let q = ext_u.iter().next().unwrap().clone();
+            ext_u.remove(&q);
+
+            let l = _Q.len();
+            _Q[l - 1] = q;
+            
+            let adj_q = adj_list.get(&q).unwrap();
+            let mut subg_q: HashSet<Node> = subg.clone();
+            subg_q.retain(|e| adj_q.contains(e));
+
+            if subg_q.len() == 0 {
+                yield _Q.clone();
+            }
+        }
     }
 
 }
